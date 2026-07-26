@@ -1,0 +1,820 @@
+/* ===========================================================
+   哪吒闹海 — Nezha Conquers the Dragon King
+   Gongbi Heavy-Colour Theme · Dark Silk Ground
+   =========================================================== */
+
+/* ─── CSS Variables ─────────────────────────────────────── */
+:root {
+  /* Dark silk ground */
+  --silk-dark:       #1C1820;
+  --silk-mid:        #2A2430;
+  --silk-light:      #362E3C;
+
+  /* Five Sacred Colours — gongbi palette */
+  --cinnabar:        #C73B28;
+  --cinnabar-deep:   #932B1E;
+  --cinnabar-glow:   rgba(199,59,40,0.25);
+  --azurite:         #2B6E99;
+  --azurite-deep:    #1D4F72;
+  --azurite-glow:    rgba(43,110,153,0.20);
+  --jade-green:      #4A8C6F;
+  --jade-deep:       #3A6B55;
+  --gold:            #D4A843;
+  --gold-bright:     #F2C94C;
+  --gold-glow:       rgba(212,168,67,0.30);
+  --lotus-pink:      #D4788C;
+  --lotus-deep:      #B85A6E;
+  --lotus-glow:      rgba(212,120,140,0.20);
+  --chalk-white:     #F0EDE4;
+  --ink:             #141216;
+  --ink-soft:        #8A8490;
+  --ink-mist:        #6A6470;
+  --mist:            rgba(43,110,153,0.08);
+
+  /* Semantic */
+  --bg:              var(--silk-dark);
+  --text:            var(--chalk-white);
+  --text-light:      var(--ink-soft);
+  --text-mist:       var(--ink-mist);
+  --shadow:          rgba(0,0,0,0.25);
+  --shadow-strong:   rgba(0,0,0,0.40);
+
+  /* Typography */
+  --font-en:         'Cinzel', 'EB Garamond', Georgia, serif;
+  --font-en-body:    'EB Garamond', Georgia, serif;
+  --font-zh:         'Noto Serif SC', 'Songti SC', serif;
+  --font-zh-brush:   'Ma Shan Zheng', cursive;
+  --font-ui:         'Inter', -apple-system, system-ui, sans-serif;
+
+  /* Sizing */
+  --max-w:           780px;
+  --header-h:        72px;
+  --moondial-h:      96px;
+  --radius:          4px;
+  --radius-lg:       8px;
+
+  /* Transitions */
+  --ease-out:        cubic-bezier(0.19,1,0.22,1);
+  --ease-water:      cubic-bezier(0.65,0,0.35,1);
+  --dur-fast:        0.28s;
+  --dur-med:         0.6s;
+  --dur-slow:        1.4s;
+}
+
+/* ─── Reset ────────────────────────────────────────────── */
+*,*::before,*::after { margin:0; padding:0; box-sizing:border-box; }
+html { font-size:16px; scroll-behavior:smooth; -webkit-font-smoothing:antialiased; }
+body {
+  font-family: var(--font-ui);
+  color: var(--text);
+  background: var(--bg);
+  min-height: 100vh;
+  overflow-x: hidden;
+  line-height: 1.7;
+  position: relative;
+}
+img { display:block; max-width:100%; height:auto; }
+button { cursor:pointer; border:none; background:none; font:inherit; color:inherit; -webkit-tap-highlight-color: transparent; user-select: none; }
+a { color: var(--gold); text-decoration:none; }
+a:hover { text-decoration:underline; }
+
+/* ===========================================================
+   ATMOSPHERE — Dark silk + gongbi texture + particles
+   =========================================================== */
+
+/* Dark silk radial glow — subtle, anchored top-left */
+.silk-glow {
+  position: fixed; top: -10%; left: -10%;
+  width: 60vmax; height: 60vmax;
+  pointer-events: none; z-index: 0;
+  background: radial-gradient(
+    circle at 50% 50%,
+    var(--azurite-glow) 0%,
+    rgba(43,110,153,0.06) 30%,
+    transparent 55%
+  );
+  animation: silkPulse 10s ease-in-out infinite alternate;
+}
+@keyframes silkPulse {
+  0%   { opacity: 0.4; transform: scale(1); }
+  100% { opacity: 0.7; transform: scale(1.03); }
+}
+
+/* Gongbi silk-weave texture overlay */
+body::after {
+  content: '';
+  position: fixed; inset: 0; z-index: 1; pointer-events: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.025'/%3E%3C/svg%3E");
+  mix-blend-mode: overlay;
+}
+
+/* Particles container — rising embers + falling petals */
+.particles-layer {
+  position: fixed; inset: 0; pointer-events: none; z-index: 2; overflow: hidden;
+}
+
+/* ===========================================================
+   HERO — Lotus bloom in darkness
+   =========================================================== */
+.hero {
+  position: relative; z-index: 10;
+  display: flex; flex-direction: column;
+  align-items: center; justify-content: center;
+  min-height: 100vh; padding: 2rem;
+  text-align: center;
+  overflow: hidden;
+  background: radial-gradient(
+    ellipse at 50% 60%,
+    rgba(199,59,40,0.06) 0%,
+    rgba(212,120,140,0.03) 30%,
+    transparent 60%
+  );
+}
+
+/* Lotus bloom animation */
+.hero__lotus {
+  position: absolute; top: 50%; left: 50%;
+  transform: translate(-50%, -50%);
+  width: min(320px, 60vw);
+  aspect-ratio: 1/1;
+  opacity: 0;
+  animation: lotusBloom 2.5s var(--ease-out) 0.3s forwards;
+}
+@keyframes lotusBloom {
+  0%   { opacity: 0; transform: translate(-50%, -50%) scale(0.3) rotate(-30deg); }
+  50%  { opacity: 0.6; transform: translate(-50%, -50%) scale(1.05) rotate(5deg); }
+  100% { opacity: 1; transform: translate(-50%, -50%) scale(1) rotate(0deg); }
+}
+
+/* Gold ring (乾坤圈) floating above title */
+.hero__ring {
+  position: relative; z-index: 2;
+  width: 72px; height: 72px;
+  border: 3px solid var(--gold);
+  border-radius: 50%;
+  margin: 0 auto 1rem;
+  opacity: 0;
+  animation: ringRise 1.2s var(--ease-out) 1.8s forwards;
+  box-shadow: 0 0 20px var(--gold-glow), inset 0 0 12px var(--gold-glow);
+}
+@keyframes ringRise {
+  0%   { opacity: 0; transform: translateY(30px) scale(0.6); }
+  60%  { opacity: 1; transform: translateY(-5px) scale(1.05); }
+  100% { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+.hero__content {
+  position: relative; z-index: 2;
+  opacity: 0;
+  animation: heroFade 1.4s var(--ease-out) 0.8s forwards;
+}
+@keyframes heroFade {
+  0%   { opacity: 0; transform: translateY(20px); }
+  100% { opacity: 1; transform: translateY(0); }
+}
+
+.hero__seal {
+  width: 54px; height: 54px;
+  background: var(--cinnabar);
+  color: var(--chalk-white);
+  font-family: var(--font-zh-brush);
+  font-size: 1.1rem;
+  display: flex; align-items: center; justify-content: center;
+  border-radius: 50%;
+  margin: 0 auto 0.8rem;
+  box-shadow: 0 2px 12px rgba(199,59,40,0.35);
+  animation: sealAppear 0.5s var(--ease-out) 2.2s both;
+  letter-spacing: 0.1em;
+}
+@keyframes sealAppear {
+  0%   { opacity: 0; transform: scale(0.2); }
+  70%  { opacity: 1; transform: scale(1.1); }
+  100% { opacity: 1; transform: scale(1); }
+}
+
+.hero__title-zh {
+  font-family: var(--font-zh-brush);
+  font-size: clamp(2.6rem, 8vw, 4rem);
+  color: var(--chalk-white);
+  line-height: 1.15;
+  margin-bottom: 0.1em;
+  letter-spacing: 0.08em;
+  text-shadow: 0 0 30px var(--cinnabar-glow);
+}
+.hero__title-en {
+  font-family: var(--font-en);
+  font-size: clamp(1.1rem, 3.5vw, 1.7rem);
+  color: var(--gold);
+  font-weight: 400;
+  font-style: normal;
+  margin-bottom: 0.2em;
+  letter-spacing: 0.06em;
+}
+.hero__pinyin {
+  font-family: var(--font-ui);
+  font-size: 0.85rem;
+  color: var(--ink-soft);
+  letter-spacing: 0.12em;
+  margin-bottom: 2rem;
+}
+.hero__cta {
+  display: inline-flex;
+  align-items: center; gap: 0.7em;
+  padding: 0.7em 2.2em;
+  border: 1.5px solid var(--cinnabar);
+  border-radius: var(--radius-lg);
+  color: var(--chalk-white);
+  font-family: var(--font-zh-brush);
+  font-size: 1.1rem;
+  letter-spacing: 0.12em;
+  transition: all var(--dur-fast) ease;
+  background: transparent;
+}
+.hero__cta:hover {
+  background: var(--cinnabar);
+  color: var(--chalk-white);
+  box-shadow: 0 0 20px var(--cinnabar-glow);
+}
+.hero__cta-sub {
+  font-family: var(--font-en);
+  font-size: 0.7rem;
+  letter-spacing: 0.04em;
+  opacity: 0.7;
+}
+
+/* ===========================================================
+   HEADER BAR — Fixed top strip (dark)
+   =========================================================== */
+.header {
+  position: sticky; top: 0; z-index: 100;
+  height: var(--header-h);
+  background: linear-gradient(180deg, var(--silk-dark) 85%, rgba(28,24,32,0));
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  display: flex; align-items: center;
+  padding: 0 clamp(0.8rem,3vw,2rem);
+  border-bottom: 1px solid rgba(255,255,255,0.06);
+}
+.header__inner {
+  width: 100%; max-width: var(--max-w);
+  margin: 0 auto;
+  display: flex; align-items: center; justify-content: space-between;
+  gap: 0.6rem;
+}
+.header__brand {
+  display: flex; align-items: center; gap: 0.45em;
+  flex-shrink: 0;
+}
+.header__seal {
+  width: 28px; height: 28px;
+  background: var(--cinnabar);
+  color: var(--chalk-white);
+  font-family: var(--font-zh-brush);
+  font-size: 0.55rem;
+  display: flex; align-items: center; justify-content: center;
+  border-radius: 50%;
+  letter-spacing: 0.08em;
+}
+.header__title {
+  font-family: var(--font-zh-brush);
+  font-size: 0.95rem;
+  color: var(--chalk-white);
+  white-space: nowrap;
+}
+
+/* ─── Chapter nav tray (bronze vessel icons) ────────────── */
+.chapter-tray {
+  display: flex; gap: 6px; align-items: center;
+}
+.chapter-chip {
+  width: 28px; height: 28px;
+  min-width: 28px;
+  min-height: 28px;
+  border-radius: 50%;
+  background: var(--silk-mid);
+  border: 1.5px solid rgba(255,255,255,0.08);
+  position: relative;
+  transition: all var(--dur-fast) ease;
+  display: flex; align-items: center; justify-content: center;
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+}
+.chapter-chip::before {
+  content: '';
+  position: absolute;
+  width: 18px; height: 18px;
+  border-radius: 50%;
+  background: var(--ink-mist);
+  opacity: 0.15;
+  transition: all var(--dur-fast) ease;
+}
+.chapter-chip.active {
+  border-color: var(--gold);
+  background: transparent;
+  box-shadow: 0 0 12px var(--gold-glow);
+  transform: scale(1.2);
+}
+.chapter-chip.active::before {
+  width: 20px; height: 20px;
+  background: var(--gold);
+  opacity: 0.9;
+  box-shadow: 0 0 8px var(--gold-glow);
+}
+.chapter-chip.visited {
+  border-color: var(--cinnabar);
+}
+.chapter-chip.visited::before {
+  width: 18px; height: 18px;
+  background: var(--cinnabar);
+  opacity: 0.6;
+}
+.chapter-chip:active {
+  transform: scale(0.9);
+}
+
+/* ─── Header controls ──────────────────────────────────── */
+.controls {
+  display: flex; align-items: center; gap: 0.5rem;
+  flex-shrink: 0;
+}
+
+/* Language toggle */
+.lang-toggle {
+  display: flex;
+  border: 1px solid rgba(255,255,255,0.08);
+  border-radius: var(--radius);
+  overflow: hidden;
+}
+.lang-btn {
+  padding: 0.3em 0.75em;
+  font-family: var(--font-ui);
+  font-size: 0.72rem;
+  font-weight: 500;
+  letter-spacing: 0.04em;
+  color: var(--ink-soft);
+  transition: all var(--dur-fast) ease;
+  border-right: 1px solid rgba(255,255,255,0.08);
+}
+.lang-btn:last-child { border-right: none; }
+.lang-btn.active {
+  background: var(--chalk-white);
+  color: var(--ink);
+}
+
+/* Auto-play toggle */
+.autoplay-btn {
+  display: flex; align-items: center; gap: 0.3em;
+  padding: 0.3em 0.6em;
+  border: 1px solid rgba(255,255,255,0.08);
+  border-radius: var(--radius);
+  font-size: 0.68rem;
+  font-weight: 500;
+  letter-spacing: 0.04em;
+  color: var(--ink-soft);
+  transition: all var(--dur-fast) ease;
+}
+.autoplay-btn svg { width: 14px; height: 14px; }
+.autoplay-btn.active {
+  border-color: var(--cinnabar);
+  color: var(--cinnabar);
+  background: var(--cinnabar-glow);
+}
+
+/* ===========================================================
+   TIDE-LINE PROGRESS (wave crest fill)
+   =========================================================== */
+.tide-progress {
+  position: fixed; top: var(--header-h); left: 0; right: 0;
+  z-index: 90;
+  height: 5px;
+  background: rgba(255,255,255,0.04);
+  border-bottom: 1px solid rgba(255,255,255,0.04);
+}
+.tide-progress__bar {
+  position: absolute; inset: 0;
+  background: linear-gradient(90deg,
+    var(--azurite-deep) 0%,
+    var(--azurite) var(--pct, 0%),
+    transparent var(--pct, 0%)
+  );
+  transition: width 0.4s var(--ease-water);
+  width: var(--pct, 0%);
+  box-shadow: 0 0 8px var(--azurite-glow);
+}
+
+/* ===========================================================
+   STORY CHAPTERS
+   =========================================================== */
+.story {
+  position: relative; z-index: 10;
+  max-width: var(--max-w);
+  margin: 0 auto;
+  padding: calc(var(--header-h) + 20px) clamp(1rem,4vw,2.5rem) calc(var(--moondial-h) + 2rem);
+}
+.story-chapter {
+  display: none;
+  animation: fadeInUp 0.6s var(--ease-out);
+}
+.story-chapter.active { display: block; }
+
+@keyframes fadeInUp {
+  0%   { opacity:0; transform: translateY(18px); }
+  100% { opacity:1; transform: translateY(0); }
+}
+
+/* Chapter badge */
+.chapter-badge {
+  margin-bottom: 0.6rem;
+}
+.chapter-num {
+  font-family: var(--font-ui);
+  font-size: 0.72rem;
+  font-weight: 500;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--ink-soft);
+}
+
+/* ─── Illustration frame (bronze vessel border) ─────────── */
+.illustration-frame {
+  position: relative;
+  border: 2px solid rgba(212,168,67,0.20);
+  border-radius: var(--radius);
+  padding: 6px;
+  background: var(--silk-mid);
+  box-shadow: 0 3px 18px var(--shadow-strong);
+  margin-bottom: 1.2rem;
+  overflow: hidden;
+}
+.illustration-frame img {
+  width: 100%; height: auto;
+  display: block;
+  border-radius: 2px;
+}
+.illustration-vignette {
+  position: absolute; inset: 0;
+  pointer-events: none;
+  box-shadow: inset 0 0 60px rgba(0,0,0,0.30);
+  border-radius: 2px;
+}
+
+/* Cinnabar glow pulse on illustration enter */
+.illustration-glow {
+  position: absolute; top: 50%; left: 50%;
+  transform: translate(-50%, -50%);
+  width: 200px; height: 200px;
+  pointer-events: none;
+  background: radial-gradient(
+    circle at center,
+    var(--cinnabar-glow) 0%,
+    transparent 60%
+  );
+  opacity: 0;
+  border-radius: 50%;
+  transition: opacity 0.6s ease;
+}
+.illustration-glow.bloom {
+  opacity: 1;
+  animation: cinnabarBloom 1.2s var(--ease-out) forwards;
+}
+@keyframes cinnabarBloom {
+  0%   { opacity: 0; transform: translate(-50%, -50%) scale(0.6); }
+  30%  { opacity: 0.7; transform: translate(-50%, -50%) scale(1.5); }
+  100% { opacity: 0.15; transform: translate(-50%, -50%) scale(1); }
+}
+
+/* ─── Chapter titles ───────────────────────────────────── */
+.chapter-titles {
+  text-align: center;
+  margin-bottom: 0.8rem;
+}
+.chapter-title-en {
+  font-family: var(--font-en);
+  font-size: clamp(1.3rem, 4vw, 1.75rem);
+  font-weight: 600;
+  color: var(--chalk-white);
+  line-height: 1.25;
+  margin-bottom: 0.15em;
+  letter-spacing: 0.04em;
+}
+.chapter-title-zh {
+  font-family: var(--font-zh-brush);
+  font-size: clamp(1.5rem, 5vw, 2.2rem);
+  color: var(--chalk-white);
+  line-height: 1.2;
+  margin-bottom: 0.1em;
+}
+.chapter-title-pinyin {
+  font-family: var(--font-ui);
+  font-size: 0.78rem;
+  color: var(--ink-soft);
+  letter-spacing: 0.08em;
+}
+
+/* ─── Per-chapter mini play ────────────────────────────── */
+.chapter-audio {
+  display: flex; align-items: center; gap: 0.6rem;
+  margin-bottom: 0.8rem;
+  padding: 0 0.2rem;
+}
+.audio-play-btn {
+  width: 34px; height: 34px;
+  border-radius: 50%;
+  background: var(--cinnabar);
+  color: var(--chalk-white);
+  display: flex; align-items: center; justify-content: center;
+  transition: all var(--dur-fast) ease;
+  flex-shrink: 0;
+}
+.audio-play-btn svg { width: 14px; height: 14px; margin-left: 2px; }
+.audio-play-btn:hover { background: var(--cinnabar-deep); box-shadow: 0 0 12px var(--cinnabar-glow); }
+.audio-play-btn:active { transform: scale(0.92); }
+.audio-play-btn.playing {
+  background: var(--cinnabar);
+  box-shadow: 0 0 12px var(--cinnabar-glow);
+}
+.audio-progress {
+  flex: 1; height: 3px;
+  background: rgba(255,255,255,0.08);
+  border-radius: 2px;
+  position: relative;
+  cursor: pointer;
+}
+.audio-progress-fill {
+  height: 100%; width: 0%;
+  background: var(--gold);
+  border-radius: 2px;
+  transition: width 0.15s linear;
+}
+.audio-time {
+  font-family: var(--font-ui);
+  font-size: 0.65rem;
+  color: var(--ink-soft);
+  min-width: 3em;
+  text-align: right;
+}
+
+/* ─── Lotus petal divider ──────────────────────────────── */
+.lotus-divider {
+  display: flex; align-items: center; justify-content: center;
+  gap: 0; margin: 1.4rem 0;
+  position: relative;
+}
+.lotus-divider__line {
+  flex: 1; height: 1px;
+  background: rgba(255,255,255,0.06);
+}
+.lotus-divider__petal {
+  width: 28px; height: 20px;
+  margin: 0 0.8rem;
+  opacity: 0;
+  transition: opacity var(--dur-med) ease;
+  display: flex; align-items: center; justify-content: center;
+}
+.lotus-divider__petal svg {
+  width: 100%; height: 100%;
+}
+.lotus-divider__petal.visible {
+  opacity: 1;
+  animation: petalStamp 0.5s var(--ease-out);
+}
+@keyframes petalStamp {
+  0%   { transform: scale(0) rotate(-45deg); opacity: 0; }
+  60%  { transform: scale(1.15) rotate(5deg); opacity: 1; }
+  100% { transform: scale(1) rotate(0deg); opacity: 1; }
+}
+
+/* ─── Chapter content — two-column Hanzi + Pinyin ──────── */
+.chapter-content {
+  margin-top: 0.4rem;
+}
+.content-en {
+  font-family: var(--font-en-body);
+  font-size: clamp(1rem, 2.8vw, 1.18rem);
+  line-height: 1.85;
+  color: var(--chalk-white);
+  margin-bottom: 1.6rem;
+  max-width: 68ch;
+}
+.content-en p { margin-bottom: 0.9em; }
+
+.content-zh-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0 1.4rem;
+  direction: ltr;
+}
+.content-zh-grid .zh-text {
+  font-family: var(--font-zh);
+  font-size: clamp(0.95rem, 2.6vw, 1.08rem);
+  line-height: 2;
+  color: var(--chalk-white);
+  white-space: pre-wrap;
+}
+.content-zh-grid .pinyin-line {
+  font-family: var(--font-ui);
+  font-size: clamp(0.68rem, 1.8vw, 0.76rem);
+  line-height: 2;
+  color: var(--ink-soft);
+  white-space: pre-wrap;
+}
+
+/* ===========================================================
+   TIDAL DRUM — Fixed bottom audio console (潮鼓)
+   =========================================================== */
+.moondial {
+  position: fixed; bottom: 0; left: 0; right: 0;
+  z-index: 100;
+  height: var(--moondial-h);
+  background: linear-gradient(180deg, rgba(28,24,32,0) 0%, var(--silk-dark) 18%);
+  display: flex; align-items: flex-end; justify-content: center;
+  padding-bottom: 0.6rem;
+  pointer-events: none;
+}
+.moondial__inner {
+  width: min(680px, 90vw);
+  pointer-events: auto;
+  background: var(--silk-mid);
+  border: 1px solid rgba(255,255,255,0.06);
+  border-radius: 40px;
+  padding: 0.55rem 1.2rem 0.5rem;
+  display: flex; align-items: center; gap: 0.7rem;
+  box-shadow: 0 -2px 14px var(--shadow);
+}
+.moondial__label {
+  font-family: var(--font-ui);
+  font-size: 0.62rem;
+  color: var(--ink-soft);
+  white-space: nowrap;
+  min-width: 80px;
+  line-height: 1.3;
+}
+.moondial__label-ch {
+  display: block;
+  font-family: var(--font-zh);
+  font-size: 0.7rem;
+  color: var(--chalk-white);
+}
+.moondial__band {
+  flex: 1; position: relative;
+  height: 32px;
+  background: linear-gradient(90deg,
+    rgba(255,255,255,0.04) 0%,
+    rgba(43,110,153,0.10) 100%
+  );
+  border-radius: 16px;
+  overflow: visible;
+  cursor: pointer;
+  position: relative;
+  transition: background 0.2s ease;
+}
+.moondial__band:hover {
+  background: linear-gradient(90deg,
+    rgba(255,255,255,0.06) 0%,
+    rgba(43,110,153,0.15) 100%
+  );
+}
+
+/* Dragon-scale texture on band */
+.moondial__band::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(1px 1px at 10% 50%, rgba(212,168,67,0.3) 0%, transparent 100%),
+    radial-gradient(1px 1px at 25% 60%, rgba(212,168,67,0.3) 0%, transparent 100%),
+    radial-gradient(1px 1px at 40% 40%, rgba(212,168,67,0.3) 0%, transparent 100%),
+    radial-gradient(1px 1px at 55% 55%, rgba(212,168,67,0.3) 0%, transparent 100%),
+    radial-gradient(1px 1px at 70% 45%, rgba(212,168,67,0.3) 0%, transparent 100%),
+    radial-gradient(1px 1px at 85% 50%, rgba(212,168,67,0.3) 0%, transparent 100%);
+  opacity: 0.3;
+  border-radius: 16px;
+  pointer-events: none;
+}
+.moondial__fill {
+  position: absolute; inset: 0;
+  background: linear-gradient(90deg,
+    var(--cinnabar) 0%,
+    var(--cinnabar) var(--pct, 0%),
+    transparent var(--pct, 0%)
+  );
+  border-radius: 16px;
+  opacity: 0.20;
+  transition: --pct 0.15s linear;
+}
+.moondial__cursor {
+  position: absolute; top: 50%; left: var(--pct, 0%);
+  width: 20px; height: 20px;
+  transform: translate(-50%, -50%);
+  pointer-events: none;
+}
+.moondial__cursor-dot {
+  width: 100%; height: 100%;
+  border-radius: 50%;
+  background: radial-gradient(
+    circle at 40% 35%,
+    var(--cinnabar) 0%,
+    var(--cinnabar-deep) 50%,
+    var(--ink) 100%
+  );
+  box-shadow: 0 0 12px var(--cinnabar-glow);
+  transition: box-shadow 0.3s ease;
+}
+.moondial__play {
+  width: 38px; height: 38px;
+  border-radius: 50%;
+  background: var(--cinnabar);
+  color: var(--chalk-white);
+  display: flex; align-items: center; justify-content: center;
+  flex-shrink: 0;
+  transition: background var(--dur-fast) ease;
+}
+.moondial__play svg { width: 16px; height: 16px; margin-left: 2px; }
+.moondial__play:hover { background: var(--cinnabar-deep); }
+.moondial__play.playing { background: var(--cinnabar-deep); }
+
+.moondial__time {
+  font-family: var(--font-ui);
+  font-size: 0.62rem;
+  color: var(--ink-soft);
+  min-width: 3.5em;
+  text-align: right;
+}
+
+.moondial__nav {
+  display: flex; gap: 0.2rem;
+}
+.moondial__nav button {
+  width: 28px; height: 28px;
+  border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  color: var(--ink-soft);
+  transition: all var(--dur-fast) ease;
+}
+.moondial__nav button:hover { color: var(--chalk-white); background: rgba(255,255,255,0.06); }
+.moondial__nav button:disabled { opacity: 0.3; pointer-events: none; }
+.moondial__nav svg { width: 14px; height: 14px; }
+
+/* ===========================================================
+   FOOTER
+   =========================================================== */
+.footer {
+  position: relative; z-index: 10;
+  text-align: center;
+  padding: 2rem 1rem calc(var(--moondial-h) + 2rem);
+  font-size: 0.72rem;
+  color: var(--ink-mist);
+  line-height: 1.8;
+}
+.footer a { color: var(--gold); }
+
+/* ===========================================================
+   RESPONSIVE
+   =========================================================== */
+@media (max-width: 640px) {
+  :root {
+    --header-h: 60px;
+    --moondial-h: 84px;
+  }
+  .chapter-chip { width: 22px; height: 22px; min-width: 22px; min-height: 22px; }
+  .chapter-chip::before { width: 14px; height: 14px; }
+  .chapter-chip.active::before { width: 16px; height: 16px; }
+  .chapter-chip.visited::before { width: 14px; height: 14px; }
+  .chapter-chip.active { transform: scale(1.25); }
+  .content-zh-grid {
+    grid-template-columns: 1fr;
+    gap: 0.8rem 0;
+  }
+  .moondial__inner { gap: 0.45rem; padding: 0.45rem 0.8rem 0.4rem; }
+  .moondial__label { min-width: 60px; font-size: 0.55rem; }
+  .hero__seal { width: 40px; height: 40px; font-size: 0.85rem; }
+  .hero__ring { width: 56px; height: 56px; border-width: 2px; }
+  .header__brand .header__title { display: none; }
+  .lang-btn { padding: 0.4em 0.6em; font-size: 0.68rem; }
+  .autoplay-btn { padding: 0.4em 0.5em; }
+}
+
+@media (max-width: 480px) {
+  .hero__ring { width: 48px; height: 48px; }
+  .chapter-chip { width: 20px; height: 20px; min-width: 20px; min-height: 20px; }
+  .chapter-chip::before { width: 12px; height: 12px; }
+  .chapter-chip.active::before { width: 14px; height: 14px; }
+  .chapter-tray { gap: 4px; }
+}
+
+/* ===========================================================
+   UTILITY
+   =========================================================== */
+.sr-only {
+  position: absolute; width:1px; height:1px; padding:0; margin:-1px;
+  overflow: hidden; clip: rect(0,0,0,0); white-space: nowrap; border:0;
+}
+[hidden] { display: none !important; }
+
+/* Smooth hide/show for language blocks */
+[data-lang="en"] .content-zh-grid,
+[data-lang="en"] .chapter-title-zh,
+[data-lang="en"] .chapter-title-pinyin { display: none; }
+
+[data-lang="zh"] .content-en { display: none; }
+[data-lang="zh"] .chapter-title-en { display: none; }

@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="zh-Hans" data-lang="zh">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>哪吒闹海 — Nezha Conquers the Dragon King</title>
+  <meta name="description" content="A bilingual retelling of the Chinese folktale '哪吒闹海' (Nezha Conquers the Dragon King) with gongbi heavy-colour illustrations, narration, and pinyin.">
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🔥</text></svg>">
+
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500;600;700&family=EB+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500&family=Ma+Shan+Zheng&family=Noto+Serif+SC:wght@400;500;600;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+  <!-- ════════════════════════════════════════════
+       ATMOSPHERE — Dark Silk Glow + Particles
+       ════════════════════════════════════════════ -->
+  <div class="silk-glow" aria-hidden="true"></div>
+  <div class="particles-layer" id="particlesLayer" aria-hidden="true"></div>
+
+  <!-- ════════════════════════════════════════════
+       HERO — Lotus bloom in darkness
+       ════════════════════════════════════════════ -->
+  <section id="hero" class="hero" aria-label="Title screen">
+    <!-- SVG Lotus bloom -->
+    <div class="hero__lotus" aria-hidden="true">
+      <svg viewBox="0 0 320 320" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <!-- Outer petals -->
+        <g opacity="0.7">
+          <ellipse cx="160" cy="100" rx="40" ry="70" fill="#D4788C" transform="rotate(0 160 160)"/>
+          <ellipse cx="160" cy="100" rx="40" ry="70" fill="#D4788C" transform="rotate(45 160 160)"/>
+          <ellipse cx="160" cy="100" rx="40" ry="70" fill="#D4788C" transform="rotate(90 160 160)"/>
+          <ellipse cx="160" cy="100" rx="40" ry="70" fill="#D4788C" transform="rotate(135 160 160)"/>
+          <ellipse cx="160" cy="100" rx="40" ry="70" fill="#D4788C" transform="rotate(180 160 160)"/>
+          <ellipse cx="160" cy="100" rx="40" ry="70" fill="#D4788C" transform="rotate(225 160 160)"/>
+          <ellipse cx="160" cy="100" rx="40" ry="70" fill="#D4788C" transform="rotate(270 160 160)"/>
+          <ellipse cx="160" cy="100" rx="40" ry="70" fill="#D4788C" transform="rotate(315 160 160)"/>
+        </g>
+        <!-- Inner petals -->
+        <g opacity="0.85">
+          <ellipse cx="160" cy="120" rx="28" ry="50" fill="#B85A6E" transform="rotate(22.5 160 160)"/>
+          <ellipse cx="160" cy="120" rx="28" ry="50" fill="#B85A6E" transform="rotate(67.5 160 160)"/>
+          <ellipse cx="160" cy="120" rx="28" ry="50" fill="#B85A6E" transform="rotate(112.5 160 160)"/>
+          <ellipse cx="160" cy="120" rx="28" ry="50" fill="#B85A6E" transform="rotate(157.5 160 160)"/>
+          <ellipse cx="160" cy="120" rx="28" ry="50" fill="#B85A6E" transform="rotate(202.5 160 160)"/>
+          <ellipse cx="160" cy="120" rx="28" ry="50" fill="#B85A6E" transform="rotate(247.5 160 160)"/>
+          <ellipse cx="160" cy="120" rx="28" ry="50" fill="#B85A6E" transform="rotate(292.5 160 160)"/>
+          <ellipse cx="160" cy="120" rx="28" ry="50" fill="#B85A6E" transform="rotate(337.5 160 160)"/>
+        </g>
+        <!-- Center -->
+        <circle cx="160" cy="160" r="22" fill="#C73B28" opacity="0.9"/>
+        <circle cx="160" cy="160" r="10" fill="#D4A843" opacity="0.7"/>
+      </svg>
+    </div>
+
+    <div class="hero__content">
+      <div class="hero__ring" aria-hidden="true"></div>
+      <div class="hero__seal" aria-hidden="true">哪吒</div>
+      <h1 class="hero__title-zh">哪吒闹海</h1>
+      <h2 class="hero__title-en">Nezha Conquers the Dragon King</h2>
+      <p class="hero__pinyin">Nézhā Nào Hǎi</p>
+      <button id="begin-btn" class="hero__cta" aria-label="Conquer the sea and begin">
+        <span class="hero__cta-sub">Conquer the Sea</span>
+        <span>闹海</span>
+      </button>
+    </div>
+  </section>
+
+  <!-- ════════════════════════════════════════════
+       HEADER BAR — Fixed top strip
+       ════════════════════════════════════════════ -->
+  <header class="header" id="header" aria-label="Controls">
+    <div class="header__inner">
+      <div class="header__brand">
+        <div class="header__seal" aria-hidden="true">吒</div>
+        <span class="header__title">哪吒闹海</span>
+      </div>
+
+      <!-- Chapter nav tray -->
+      <nav class="chapter-tray" id="chapterTray" aria-label="Chapter navigation"></nav>
+
+      <!-- Controls -->
+      <div class="controls">
+        <div class="lang-toggle" role="group" aria-label="Language">
+          <button id="langEn" class="lang-btn" data-lang="en" aria-pressed="false">EN</button>
+          <button id="langZh" class="lang-btn active" data-lang="zh" aria-pressed="true">中文</button>
+        </div>
+        <button id="autoplayBtn" class="autoplay-btn" title="Toggle auto-play" aria-label="Toggle auto-play">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+            <circle cx="12" cy="12" r="10"/>
+            <polygon points="10,8 16,12 10,16" fill="currentColor"/>
+          </svg>
+          <span>AUTO</span>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- ════════════════════════════════════════════
+       TIDE-LINE PROGRESS BAR
+       ════════════════════════════════════════════ -->
+  <div class="tide-progress" id="tideProgress" aria-hidden="true">
+    <div class="tide-progress__bar" id="tideBar"></div>
+  </div>
+
+  <!-- ════════════════════════════════════════════
+       MAIN STORY CONTAINER
+       ════════════════════════════════════════════ -->
+  <main class="story" id="story" aria-label="Story">
+    <!-- Chapters rendered by JS -->
+  </main>
+
+  <!-- ════════════════════════════════════════════
+       TIDAL DRUM — Fixed bottom audio console (潮鼓)
+       ════════════════════════════════════════════ -->
+  <div class="moondial" id="moondial">
+    <div class="moondial__inner">
+      <div class="moondial__label">
+        <span class="moondial__label-ch" id="moondialLabelZh">第一章</span>
+        <span id="moondialLabelEn">Ch 1</span>
+      </div>
+
+      <button class="moondial__play" id="moondialPlay" aria-label="Play / Pause">
+        <svg class="icon-play" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>
+        <svg class="icon-pause" viewBox="0 0 24 24" fill="currentColor" style="display:none"><path d="M6 4h4v16H6zM14 4h4v16h-4z"/></svg>
+      </button>
+
+      <div class="moondial__band" id="moondialBand">
+        <div class="moondial__fill" id="moondialFill"></div>
+        <div class="moondial__cursor" id="moondialCursor">
+          <div class="moondial__cursor-dot"></div>
+        </div>
+      </div>
+
+      <span class="moondial__time" id="moondialTime">0:00</span>
+
+      <div class="moondial__nav">
+        <button id="prevBtn" aria-label="Previous chapter">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M15 18l-6-6 6-6"/></svg>
+        </button>
+        <button id="nextBtn" aria-label="Next chapter">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 18l6-6-6-6"/></svg>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ════════════════════════════════════════════
+       FOOTER
+       ════════════════════════════════════════════ -->
+  <footer class="footer">
+    <p>《哪吒闹海》 · 中国传统神话 · 封神演义</p>
+    <p>A bilingual webbook · MIT License</p>
+  </footer>
+
+  <!-- Audio (hidden — must be before scripts so DOM refs resolve) -->
+  <audio id="audioPlayer" preload="none" style="display:none"></audio>
+
+  <!-- ════════════════════════════════════════════
+       SCRIPTS
+       ════════════════════════════════════════════ -->
+  <script src="js/story-data.js"></script>
+  <script src="js/app.js"></script>
+</body>
+</html>
